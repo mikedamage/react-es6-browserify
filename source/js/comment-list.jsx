@@ -3,9 +3,17 @@ import Comment from './comment';
 
 class CommentList extends React.Component {
   render() {
+    let commentNodes = this.props.data.map(comment => {
+      return (
+        <Comment author={comment.author}>
+          {comment.text}
+        </Comment>
+      );
+    });
+
     return (
       <ol className="comment-list">
-        <Comment author="Mike Green">This is a comment.</Comment>
+        {commentNodes}
       </ol>
     );
   }

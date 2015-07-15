@@ -1,7 +1,3 @@
-/**
- * CommentBox Class
- */
-
 import React from 'react';
 import CommentForm from './comment-form';
 import CommentList from './comment-list';
@@ -12,7 +8,7 @@ class CommentBox extends React.Component {
       <div className="comment-box">
         Hello World, I am a comment box.
         <CommentForm />
-        <CommentList />
+        <CommentList data={this.props.data} />
       </div>
     );
   }
