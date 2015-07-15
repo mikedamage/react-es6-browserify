@@ -8,7 +8,7 @@ var runSequence = require('run-sequence');
 var browserify  = require('browserify');
 var babelify    = require('babelify');
 var source      = require('vinyl-source-stream');
-var browserSync = require('browser-sync');
+var browserSync = require('browser-sync').create();
 var reload      = browserSync.reload;
 
 var resources = {
@@ -31,13 +31,13 @@ gulp.task('js', function() {
     .bundle()
     .pipe(source('bundle.js'))
     .pipe(gulp.dest('./build/js'))
-    .pipe(reload({ stream: true }));
+    .pipe(browserSync.stream());
 });
 
 gulp.task('copy', function() {
   return gulp.src(resources.copy)
     .pipe(gulp.dest('./build'))
-    .pipe(reload({ stream: true }));
+    .pipe(browserSync.stream({ once: true }));
 });
 
 gulp.task('styles', function() {
@@ -47,11 +47,11 @@ gulp.task('styles', function() {
     }).on('error', $.sass.logError))
     .pipe($.pleeease())
     .pipe(gulp.dest('./build/css'))
-    .pipe(reload({ stream: true }));
+    .pipe(browserSync.stream());
 });
 
 gulp.task('serve', function() {
-  browserSync({
+  browserSync.init({
     server: {
       baseDir: './build'
     }
