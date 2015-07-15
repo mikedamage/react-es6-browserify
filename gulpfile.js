@@ -10,6 +10,7 @@ var babelify    = require('babelify');
 var source      = require('vinyl-source-stream');
 var browserSync = require('browser-sync').create();
 var reload      = browserSync.reload;
+var devServer   = require('./lib/dev-server');
 
 var resources = {
   copy: [
@@ -53,7 +54,8 @@ gulp.task('styles', function() {
 gulp.task('serve', function() {
   browserSync.init({
     server: {
-      baseDir: './build'
+      baseDir: './build',
+      middleware: devServer
     }
   });
 
