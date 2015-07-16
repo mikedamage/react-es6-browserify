@@ -1,10 +1,12 @@
-import 'whatwg-fetch';
 import {polyfill} from 'es6-promise';
 import React from 'react';
+import assign from 'lodash.assign';
 import CommentForm from './comment-form';
 import CommentList from './comment-list';
 
 polyfill();
+
+import 'whatwg-fetch';
 
 class CommentBox extends React.Component {
   constructor() {
@@ -21,11 +23,29 @@ class CommentBox extends React.Component {
       .catch(err => console.error(err, err.toString()));
   }
 
+  handleCommentSubmit(comment) {
+    let comments = this.state.data;
+    let newData  = assign(comment, { key: comments.length + 1 })
+    comments.push(newData);
+    this.setState(comments);
+
+
+    fetch('/comments.json', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(comment)
+    }).then(resp => resp.json())
+      .then(json => alert(json.message));
+  }
+
   componentDidMount() {
     this.loadCommentsFromServer();
 
     if (this.props.pollInterval) {
-      this.pollTimer = setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+      this.pollTimer = setInterval(this.loadCommentsFromServer.bind(this), this.props.pollInterval);
     }
   }
 
@@ -33,7 +53,7 @@ class CommentBox extends React.Component {
     return (
       <div className="comment-box">
         Hello World, I am a comment box.
-        <CommentForm />
+        <CommentForm onCommentSubmit={this.handleCommentSubmit.bind(this)} />
         <CommentList data={this.state.data} />
       </div>
     );
