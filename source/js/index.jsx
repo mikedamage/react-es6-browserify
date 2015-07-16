@@ -1,6 +1,6 @@
 // Doing React stuff
 
-import React from 'react';
+import React      from 'react';
 import HelloWorld from './hello-world';
 import CommentBox from './comment-box';
 

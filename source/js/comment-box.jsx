@@ -1,6 +1,6 @@
-import {polyfill} from 'es6-promise';
-import React from 'react';
-import assign from 'lodash.assign';
+import {polyfill}  from 'es6-promise';
+import React       from 'react';
+import assign      from 'lodash.assign';
 import CommentForm from './comment-form';
 import CommentList from './comment-list';
 
