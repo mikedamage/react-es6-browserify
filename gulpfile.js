@@ -8,6 +8,7 @@ var runSequence = require('run-sequence');
 var browserify  = require('browserify');
 var babelify    = require('babelify');
 var source      = require('vinyl-source-stream');
+var buffer      = require('vinyl-buffer');
 var browserSync = require('browser-sync').create();
 var reload      = browserSync.reload;
 var devServer   = require('./lib/dev-server');
@@ -31,6 +32,10 @@ gulp.task('js', function() {
     .transform(babelify)
     .bundle()
     .pipe(source('bundle.js'))
+    .pipe(buffer())
+    .pipe($.size({ title: 'js (pre-minify)' }))
+    .pipe($.uglify())
+    .pipe($.size({ title: 'js (minified)' }))
     .pipe(gulp.dest('./build/js'))
     .pipe(browserSync.stream());
 });
