@@ -38,7 +38,7 @@ class CommentBox extends React.Component {
       },
       body: JSON.stringify(comment)
     }).then(resp => resp.json())
-      .then(json => alert(json.message));
+      .then(json => console.log(json));
   }
 
   componentDidMount() {
